@@ -1,6 +1,3 @@
-
-
-
 import Head from 'next/head'
 import Image from 'next/image'
 import Header from '../components/Header'
@@ -8,10 +5,11 @@ import FirstPage from '../components/FirstPage'
 import Router from 'next/router'
 import  {useRouter}  from 'next/router';
 import  {useEffect}  from 'react';
-
+import AuthProvider from '../context/auth'
 export default function Home() {
   return (
-    <div className='h-full'>
+    <AuthProvider>
+   
       
       <Head>
         <title>circles</title>
@@ -22,8 +20,8 @@ export default function Home() {
       <Header />
       
       <FirstPage/>
-
-    </div>
+      </AuthProvider>
+  
     
   )
 }
