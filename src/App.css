@@ -3,6 +3,8 @@
 }
 
 .gif-loader {
-  height: 100%;
-  width: 100%;
+  position: absolute;
+top: -200px ;
 }
+
+body {overflow: hidden;}

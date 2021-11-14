@@ -25,7 +25,7 @@ function App() {
               <Route exact path="/" render={() => (<Redirect to="/home"/>)} />
             ) : (
               <Route exact path="/">
-                <img src={loader} className="gif-loader"></img>
+                <img src={loader} className="gif-loader "  layout="fill" ></img>
               </Route>
             )
           }
