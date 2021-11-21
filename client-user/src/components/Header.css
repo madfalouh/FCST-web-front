@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
+
+.flex {
+
+display : flex ; 
+
+margin-left:220px ; 
+
+flex-wrap:wrap ; 
+gap:50px ; 
+
+}
+
+
+
+
+.bg-bluenav{
+
+
+background-color:  #00016c ; 
+}
+
+.circleLogo{
+
+width:150px ; 
+
+height :60px ; 
+
+position : absolute ; 
+
+top:0% ; 
+left:0% ; 
+
+
+}
+
+.text{
+font-family: 'Share Tech', sans-serif;
+font-size:20px ; 
+cursor : pointer  ; 
+margin-top:30px ; 
+color : #FFF
+
+}
+
+p{
+color : #FFF
+}
+
+
+.text:hover {
+
+color : #C0C0CB
+
+}
+.text-btn{
+margin-top:8px ; 
+font-size:18px
+}
+
+.btn{
+
+width:300px ; 
+height:60px ; 
+
+position : absolute ; 
+
+top:-2% ; 
+
+right:3% ; 
+
+background-color:  red ; 
+
+
+}
+
+.cont{
+
+margin-top:-16px ; 
+height : 706px ; 
+}
+
+.image{
+margin-top:100px ; 
+float:right ; 
+}
+.para {
+margin-top:100px ; 
+float : left ; 
+
+}
+
+.main{
+font-size:40px ; 
+}
+
+.main1{
+font-size:30px ; 
+
+margin-left:12px
+}
