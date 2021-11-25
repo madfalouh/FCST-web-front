@@ -30,7 +30,7 @@ const RegisterForm = () => {
           },
           data: data
         }).then((response) => {
-          localStorage.setItem('__TOKEN__', response.data.token);
+          sessionStorage.setItem('__TOKEN__', response.data.token);
           history.push('/home');
         }).catch((error) => {
             console.error('There was an error!', error);
