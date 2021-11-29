@@ -103,7 +103,7 @@ function ChatPage() {
   // Listen for messages
   const handleChangeCurrentUser = (index, event) => {
     if( i>0 ) {
-      history.push('/chats');
+      window.location.reload();
     }
 
     setCurrentUser(allUsers[index]);
@@ -137,7 +137,7 @@ function ChatPage() {
     ));
   }
 
-  socket.addEventListener('message', function (event) {
+  socket.addEventListener('message', (event) => {
     const msg = JSON.parse(event.data);
 
     if(msg.sender === id) {
