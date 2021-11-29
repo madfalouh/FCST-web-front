@@ -1,15 +1,24 @@
-import React, { useRef } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import React, { useEffect, useState  } from 'react';
+import {BrowserRouter as Router, Redirect, Route} from 'react-router-dom';
 import './App.css';
-import { useEffect, useState } from 'react';
 import loader from "./assets/loader.gif";
-import { BrowserRouter, Redirect,  Switch } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ChatPage from './pages/ChatPage';
 import RegisterPage from './pages/RegisterPage';
-import Join from './components/Join/Join';
+const jwt = require("jsonwebtoken");
 
+
+const isTokenValid = () => {
+  const token = sessionStorage.getItem('__TOKEN__'); 
+  if(token) { 
+    const decoded_token = jwt.verify(sessionStorage.getItem('__TOKEN__'), process.env.REACT_APP_TOKEN_KEY);
+    const now = Math.floor(Date.now() / 1000);
+    return decoded_token && decoded_token.exp > now;
+  } else {
+    return false;
+  }
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +32,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-      
           {!isLoading ?
             (
               <Route exact path="/" render={() => (<Redirect to="/home"/>)} />
@@ -36,7 +44,6 @@ function App() {
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
-          <Route path='/join' exact component={Join} />
           <Route path='/chats' component={ChatPage} />
       </Router>
     </div>
