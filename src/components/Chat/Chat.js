@@ -10,7 +10,7 @@ import UserContainer from '../UserContainer/UserContainer';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
 // Socket to use
-const socket = new WebSocket(`${process.env.REACT_APP_BASE_WEBSOCKET_URL}/chats?name=test`);
+const socket = new WebSocket(`ws://localhost:3001/chats?name=test`);
 
 const Chat = ({location}) => {
   const [name,setName] = useState('');
