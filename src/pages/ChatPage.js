@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './chatcss.css'
-import { useHistory } from 'react-router';
 const jwt = require("jsonwebtoken");
-var i=0 ; 
-
-// Socket to use
-const socket = new WebSocket(`${process.env.REACT_APP_BASE_WEBSOCKET_URL}/chats`);
+var i=0 ;
 
 // This page is currently a example -> Have to be changed
 function ChatPage() {
-
-  let history = useHistory();
   const decoded_token = jwt.verify(sessionStorage.getItem('__TOKEN__'), 'tokenkey');
+  const [socket, setSocket] = useState(null);
   const [content, setContent] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [allSenderMessage, setSenderMessage] = useState([]);
@@ -22,6 +17,47 @@ function ChatPage() {
   const messageS = [];
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
   const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
+
+  useEffect(() => {
+    if (!socket) {
+      // Socket to use
+      var newSocket = new WebSocket(`${process.env.REACT_APP_BASE_WEBSOCKET_URL}/chats?id=${decoded_token.user_id}`); 
+      newSocket.onmessage = function (event) {
+        const msg = JSON.parse(event.data);
+
+        if(msg.sender === id) {
+          setRenderMessageOnsend(RenderMessageOnsend.concat(
+            <li className="me" key={msg.id}>
+              <div className="entete">
+                <h2></h2>
+                <span className="status blue"></span>
+              </div>
+              <div className="message">
+                  {msg.content}
+              </div>
+            </li>
+          )); 
+          i++;  
+        }
+
+        if(msg.receiver === id && currentUser.id === msg.sender) {
+            setRenderMessageOnsend(RenderMessageOnsend.concat(
+            <li className="you">
+              <div className="entete">
+                <h2></h2>
+                <span className="status blue"></span>
+              </div>
+              <div className="message">
+                {msg.content}
+              </div>
+            </li>
+          ));
+          i++;   
+        }
+      };
+      setSocket(newSocket);
+    }
+  }, []);
 
   const Render = () => {
     return (
@@ -77,8 +113,6 @@ function ChatPage() {
           setId(decoded_token.user_id);
           if (message.receiver.id !== decoded_token.user_id && !users.some(user => user.id === message.receiver.id)) {
             users.push(message.receiver);
-
-            console.log(message.content);
           }
           if (message.sender.id !== decoded_token.user_id && !users.some(user => user.id === message.sender.id)) {
             users.push(message.sender);
@@ -94,11 +128,6 @@ function ChatPage() {
 
     fetchUsers();
   }, [])
-
-  // Connection opened
-  socket.addEventListener('open', function (event) {
-    console.log('Connected to WS Server')
-  });
 
   // Listen for messages
   const handleChangeCurrentUser = (index, event) => {
@@ -136,40 +165,6 @@ function ChatPage() {
       }
     ));
   }
-
-  socket.addEventListener('message', (event) => {
-    const msg = JSON.parse(event.data);
-
-    if(msg.sender === id) {
-      setRenderMessageOnsend(RenderMessageOnsend.concat(
-        <li className="me" key={msg.id}>
-          <div className="entete">
-            <h2></h2>
-            <span className="status blue"></span>
-          </div>
-          <div className="message">
-              {msg.content}
-          </div>
-        </li>
-      )); 
-      i++;  
-    }
-
-    if(msg.receiver === id && currentUser.id === msg.sender) {
-        setRenderMessageOnsend(RenderMessageOnsend.concat(
-        <li className="you">
-          <div className="entete">
-            <h2></h2>
-            <span className="status blue"></span>
-          </div>
-          <div className="message">
-            {msg.content}
-          </div>
-        </li>
-      ));
-      i++;   
-    }
-  });
 
   return (
     <>
