@@ -27,7 +27,7 @@ const LoginForm = () => {
           },
           data: data
         }).then((response) => {
-          localStorage.setItem('__TOKEN__', response.data);
+          sessionStorage.setItem('__TOKEN__', response.data);
           history.push('/home');
         }).catch((error) => {
             console.error('There was an error!', error);
