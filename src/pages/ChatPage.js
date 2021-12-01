@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './chatcss.css'
 const jwt = require("jsonwebtoken");
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 var i=0 ;
 var currentUser = {id: null};
+
+// Socket to use
+const socket = new WebSocket(`ws://localhost:3000/api/chats`);
+>>>>>>> parent of aeaae402 (chat-page-front)
 
 // This page is currently a example -> Have to be changed
 function ChatPage() {
@@ -17,6 +24,9 @@ function ChatPage() {
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
   const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
   useEffect(() => {
     if (!socket) {
       // Socket to use
@@ -63,36 +73,150 @@ function ChatPage() {
   }, []);
 
   const Render = () => {
+    
     return (
-      <div className="conversation" >
+      <>
         {
-          messageS.map((message) =>
-              <li className="me" key={message.id} id="me">
-                <div className="entete">
-                  <span className="status blue"></span>
+          
+          allSenderMessage.map((msg) => {
+            if(msg.sender.id === id) {
+              console.log(allSenderMessage);
+            setRenderMessageOnsend(RenderMessageOnsend.concat(
+              <li class="me" >
+                <div class="entete">
+                  <h2></h2>
+                  <span class="status blue"></span>
                 </div>
-                
-                <div className="message">
-                <div > {message.content}</div >
+                <div class="message">
+                    {msg.content}
                 </div>
               </li>
+            )); 
+            i++;  
+            }
+          if(msg.receiver.id === id && currentUser.id === msg.sender) {
+              setRenderMessageOnsend(RenderMessageOnsend.concat(
+              <li class="you">
+                <div class="entete">
+                  <h2></h2>
+                  <span class="status blue"></span>
+                </div>
+                <div class="message">
+                  {msg.content}
+                </div>
+              </li>
+            ));
+            i++;   
+          }
+          }
           )
+        
+       
         }
-        {
-          messageR.map((message) => 
-            <li className="you" key={message.id} id="you">
-              <div className="entete">
-                <span className="status blue"></span>
-              </div>
-          
-              <div className="message">
-              <div > {message.content}</div >
-              </div>
-            </li>
-          )
-        }
-      </div>
+      
+       </>
+        
+     
     )
+=======
+  const Render = () => {
+    return (
+ <div class="conversation" >
+        {messageS.map((message) => <> 
+           <li class="me" id="me">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+
+      {messageR.map((message) => <> 
+           <li class="you"  id="you">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+        </div>
+    )
+    
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
+  const Render = () => {
+    return (
+ <div class="conversation" >
+        {messageS.map((message) => <> 
+           <li class="me" id="me">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+
+      {messageR.map((message) => <> 
+           <li class="you"  id="you">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+        </div>
+    )
+    
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
+  const Render = () => {
+    return (
+ <div class="conversation" >
+        {messageS.map((message) => <> 
+           <li class="me" id="me">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+
+      {messageR.map((message) => <> 
+           <li class="you"  id="you">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+        </div>
+    )
+    
+>>>>>>> parent of aeaae402 (chat-page-front)
   };
 
   useEffect(() => {
@@ -132,7 +256,9 @@ function ChatPage() {
   }, [])
 
   // Listen for messages
+<<<<<<< HEAD
   const handleChangeCurrentUser = (index, event) => {
+    console.log(index);
     if( i>0 ) {
       window.location.reload();
     }
@@ -147,6 +273,7 @@ function ChatPage() {
       }
     });
 
+<<<<<<< HEAD
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length}/>));
     i++;
   }
@@ -168,20 +295,81 @@ function ChatPage() {
     ));
   }
 
+<<<<<<< HEAD
   return (
     <>
-      {/* <ul>
+       <ul>
         {
           allUsers.map(function(user , index)  {
             return (
               <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}>
                 <h2>{user.lastName}</h2>
               </li>         
+=======
+
+  socket.addEventListener('message', function (event) {
+
+    
+    const msg = JSON.parse(event.data);
+
+    if (msg.sender === id) {
+      setRenderMessageOnsend(RenderMessageOnsend.concat(  <> <li class="me" >
+      <div class="entete">
+        <h2></h2>
+        <span class="status blue"></span>
+      </div>
+    
+      <div class="message">
+      <div > {msg.content}</div >
+      </div>
+    </li> </>)); 
+    i++ ;  
+  }
+    if (msg.receiver === id && currentUser.id === msg.sender) {
+      setRenderMessageOnsend(RenderMessageOnsend.concat(  <li class="you"  >
+      <div class="entete">
+        <h2></h2>
+        <span class="status blue"></span>
+      </div>
+      
+      <div class="message">
+      <div > {msg.content}</div >
+      </div>
+    </li>));
+   i++ ;   
+  }
+
+
+
+  });
+
+  return (
+    <>
+
+    
+
+    
+      <ul>
+        {
+          
+          allUsers.map(function(user , index)  {
+            return ( <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}  > <h2>{user.lastName} </h2> </li>
+         
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
+>>>>>>> parent of aeaae402 (chat-page-front)
             );
           })
         }
       </ul>
-      <br></br><br></br> */}
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <br></br><br></br> 
       <div id="container">
         <aside>
           <ul>
@@ -211,6 +399,145 @@ function ChatPage() {
           </footer>
         </main>
       </div>
+=======
+      
+=======
+      
+
+      <br></br><br></br>
+     
+      
+     
+      <div id="container">
+  <aside>
+    <header>
+      
+    </header>
+    <ul>
+      {
+          allUsers.map(function(user , index) {
+            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+              <span class="status orange"></span>
+              offline
+            </h3></li>
+          
+            );
+
+          } , this)
+        }
+    </ul>
+  </aside>
+  <main>
+    <header>
+      <div>
+      
+      </div>
+=======
+      
+
+      <br></br><br></br>
+     
+      
+     
+      <div id="container">
+  <aside>
+    <header>
+      
+    </header>
+    <ul>
+      {
+          allUsers.map(function(user , index) {
+            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+              <span class="status orange"></span>
+              offline
+            </h3></li>
+          
+            );
+
+          } , this)
+        }
+    </ul>
+  </aside>
+  <main>
+    <header>
+      <div>
+      
+      </div>
+>>>>>>> parent of aeaae402 (chat-page-front)
+    </header>
+    <ul id="chat">
+    
+    {RenderMessageOnclick }
+ 
+   
+     
+     
+    {RenderMessageOnsend}
+    
+    </ul>
+    
+    <footer>
+      <textarea placeholder="Type your message" onChange={handleChange}></textarea>
+      
+      <a onClick={sendMessage}   href="#">Send</a>
+    </footer>
+  </main>
+</div>
+<<<<<<< HEAD
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
+>>>>>>> parent of aeaae402 (chat-page-front)
+
+      <br></br><br></br>
+     
+      
+     
+      <div id="container">
+  <aside>
+    <header>
+      
+    </header>
+    <ul>
+      {
+          allUsers.map(function(user , index) {
+            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+              <span class="status orange"></span>
+              offline
+            </h3></li>
+          
+            );
+
+          } , this)
+        }
+    </ul>
+  </aside>
+  <main>
+    <header>
+      <div>
+      
+      </div>
+    </header>
+    <ul id="chat">
+    
+    {RenderMessageOnclick }
+ 
+   
+     
+     
+    {RenderMessageOnsend}
+    
+    </ul>
+    
+    <footer>
+      <textarea placeholder="Type your message" onChange={handleChange}></textarea>
+      
+      <a onClick={sendMessage}   href="#">Send</a>
+    </footer>
+  </main>
+</div>
+
+
+>>>>>>> parent of aeaae402 (chat-page-front)
     </>
   );
 }
