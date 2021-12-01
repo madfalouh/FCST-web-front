@@ -60,35 +60,50 @@ function ChatPage() {
   }, []);
 
   const Render = () => {
+    
     return (
-      <div className="conversation" >
+      <>
         {
-          messageS.map((message) =>
-              <li className="me" key={message.id} id="me">
-                <div className="entete">
-                  <span className="status blue"></span>
+          
+          allSenderMessage.map((msg) => {
+            if(msg.sender.id === id) {
+              console.log(allSenderMessage);
+            setRenderMessageOnsend(RenderMessageOnsend.concat(
+              <li class="me" >
+                <div class="entete">
+                  <h2></h2>
+                  <span class="status blue"></span>
                 </div>
-                
-                <div className="message">
-                <div > {message.content}</div >
+                <div class="message">
+                    {msg.content}
                 </div>
               </li>
+            )); 
+            i++;  
+            }
+          if(msg.receiver.id === id && currentUser.id === msg.sender) {
+              setRenderMessageOnsend(RenderMessageOnsend.concat(
+              <li class="you">
+                <div class="entete">
+                  <h2></h2>
+                  <span class="status blue"></span>
+                </div>
+                <div class="message">
+                  {msg.content}
+                </div>
+              </li>
+            ));
+            i++;   
+          }
+          }
           )
+        
+       
         }
-        {
-          messageR.map((message) => 
-            <li className="you" key={message.id} id="you">
-              <div className="entete">
-                <span className="status blue"></span>
-              </div>
-          
-              <div className="message">
-              <div > {message.content}</div >
-              </div>
-            </li>
-          )
-        }
-      </div>
+      
+       </>
+        
+     
     )
   };
 
@@ -131,6 +146,7 @@ function ChatPage() {
 
   // Listen for messages
   const handleChangeCurrentUser = (index, event) => {
+    console.log(index);
     if( i>0 ) {
       window.location.reload();
     }
@@ -168,7 +184,7 @@ function ChatPage() {
 
   return (
     <>
-      {/* <ul>
+       <ul>
         {
           allUsers.map(function(user , index)  {
             return (
@@ -179,7 +195,7 @@ function ChatPage() {
           })
         }
       </ul>
-      <br></br><br></br> */}
+      <br></br><br></br> 
       <div id="container">
         <aside>
           <ul>
