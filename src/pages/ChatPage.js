@@ -3,6 +3,7 @@ import axios from 'axios';
 import './chatcss.css'
 const jwt = require("jsonwebtoken");
 var i=0 ;
+var currentUser = {id: null};
 
 // This page is currently a example -> Have to be changed
 function ChatPage() {
@@ -11,8 +12,6 @@ function ChatPage() {
   const [content, setContent] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [allSenderMessage, setSenderMessage] = useState([]);
-  const [currentUser, setCurrentUser] = useState("");
-  const [id, setId] = useState("");
   const messageR = [];
   const messageS = [];
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
@@ -24,8 +23,11 @@ function ChatPage() {
       var newSocket = new WebSocket(`${process.env.REACT_APP_BASE_WEBSOCKET_URL}/chats?id=${decoded_token.user_id}`); 
       newSocket.onmessage = function (event) {
         const msg = JSON.parse(event.data);
+        console.log(msg);
+        console.log(msg.receiver === decoded_token.user_id && currentUser.id === msg.sender)
 
-        if(msg.sender === id) {
+        if(msg.sender === decoded_token.user_id) {
+          console.log('here');
           setRenderMessageOnsend(RenderMessageOnsend.concat(
             <li className="me" key={msg.id}>
               <div className="entete">
@@ -40,7 +42,8 @@ function ChatPage() {
           i++;  
         }
 
-        if(msg.receiver === id && currentUser.id === msg.sender) {
+        if(msg.receiver === decoded_token.user_id && currentUser.id === msg.sender) {
+          console.log('there');
             setRenderMessageOnsend(RenderMessageOnsend.concat(
             <li className="you">
               <div className="entete">
@@ -110,7 +113,6 @@ function ChatPage() {
 
           messages.push(message);
 
-          setId(decoded_token.user_id);
           if (message.receiver.id !== decoded_token.user_id && !users.some(user => user.id === message.receiver.id)) {
             users.push(message.receiver);
           }
@@ -135,18 +137,18 @@ function ChatPage() {
       window.location.reload();
     }
 
-    setCurrentUser(allUsers[index]);
+    currentUser = allUsers[index];
     allSenderMessage.forEach((message) => {
-      if(message.receiver.id === allUsers[index].id && message.sender.id === id) {
+      if(message.receiver.id === allUsers[index].id && message.sender.id === decoded_token.user_id) {
         messageS.push(message);
       }
-      if(message.sender.id === allUsers[index].id && message.receiver.id === id) {
+      if(message.sender.id === allUsers[index].id && message.receiver.id === decoded_token.user_id) {
         messageR.push(message);
       }
     });
 
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length}/>));
-    i++; 
+    i++;
   }
 
   const handleChange = (event) => {
