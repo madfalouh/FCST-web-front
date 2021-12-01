@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './chatcss.css'
 const jwt = require("jsonwebtoken");
-var i=0 ; 
+var i = 0;
 
 // Socket to use
 const socket = new WebSocket(`ws://localhost:3000/api/chats`);
@@ -23,39 +23,60 @@ function ChatPage() {
   const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
 
   const Render = () => {
+
     return (
- <div class="conversation" >
-        {messageS.map((message) => <> 
-           <li class="me" id="me">
-        <div class="entete">
-          <h2></h2>
-          <span class="status blue"></span>
-        </div>
-        
-        <div class="message">
-        <div > {message.content}</div >
-        </div>
-      </li></>    )}
+      <>
+
+        {allSenderMessage.map((message) => {
+
+          if (currentUser.id === message.receiver.id && message.sender.id === id) {
+            return (
+              <>
+                <li class="me" id="me">
+                  <div class="entete">
+                    <h2></h2>
+                    <span class="status blue"></span>
+                  </div>
+
+                  <div class="message">
+                    <div > {message.content}</div >
+                  </div>
+                </li>
+
+              </>
+            )
+          }
+          else if (message.sender.id === currentUser.id && message.receiver.id === id) {
+
+            return (<li class="you" id="you">
+              <div class="entete">
+                <h2></h2>
+                <span class="status blue"></span>
+              </div>
+
+              <div class="message">
+                <div > {message.content}</div >
+              </div>
+            </li>)
+          }
+        }
+
+        )
 
 
-      {messageR.map((message) => <> 
-           <li class="you"  id="you">
-        <div class="entete">
-          <h2></h2>
-          <span class="status blue"></span>
-        </div>
-        
-        <div class="message">
-        <div > {message.content}</div >
-        </div>
-      </li></>    )}
+        }
 
-        </div>
+      </>
+
     )
-    
+
+
+
+
   };
 
   useEffect(() => {
+    console.log(decoded_token.user_id);
     const fetchUsers = async () => {
       await axios({
         method: 'get',
@@ -113,12 +134,13 @@ function ChatPage() {
 
   const handleChangeCurrentUser = (event) => {
     event.preventDefault();
-    console.log(messageR.length);
-    if( i>0 ) {
+    if (i > 1) {
       window.location.reload(false);
 
+
+      i = 0;
     }
-   
+
     setCurrentUser(allUsers[event.target.getAttribute("data-index")]);
     allSenderMessage.map((message) => {
       if (message.receiver.id === allUsers[event.target.getAttribute("data-index")].id && message.sender.id === id) {
@@ -130,9 +152,9 @@ function ChatPage() {
 
     })
 
-   
+
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length} />));
-    i++ ; 
+    i++;
   }
 
 
@@ -158,106 +180,107 @@ function ChatPage() {
 
   socket.addEventListener('message', function (event) {
 
-    
+    console.log(event.data);
     const msg = JSON.parse(event.data);
 
     if (msg.sender === id) {
-      setRenderMessageOnsend(RenderMessageOnsend.concat(  <> <li class="me" >
-      <div class="entete">
-        <h2></h2>
-        <span class="status blue"></span>
-      </div>
-    
-      <div class="message">
-      <div > {msg.content}</div >
-      </div>
-    </li> </>)); 
-    i++ ;  
-  }
+      setRenderMessageOnsend(RenderMessageOnsend.concat(<> <li class="me" >
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+
+        <div class="message">
+          <div > {msg.content}</div >
+        </div>
+      </li> </>));
+      i++;
+
+    }
     if (msg.receiver === id && currentUser.id === msg.sender) {
-      setRenderMessageOnsend(RenderMessageOnsend.concat(  <li class="you"  >
-      <div class="entete">
-        <h2></h2>
-        <span class="status blue"></span>
-      </div>
-      
-      <div class="message">
-      <div > {msg.content}</div >
-      </div>
-    </li>));
-   i++ ;   
-  }
+      setRenderMessageOnsend(RenderMessageOnsend.concat(<li class="you"  >
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
 
+        <div class="message">
+          <div > {msg.content}</div >
+        </div>
+      </li>));
+      i++;
+    }
 
+    allSenderMessage.push(msg);
 
   });
 
   return (
     <>
 
-    
 
-    
+
+
       <ul>
         {
-          
-          allUsers.map(function(user , index)  {
-            return ( <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}  > <h2>{user.lastName} </h2> </li>
-         
+
+          allUsers.map(function (user, index) {
+            return (<li key={user.id} data-index={index} onClick={handleChangeCurrentUser}  > <h2>{user.lastName} </h2> </li>
+
             );
 
           })
         }
       </ul>
-      
+
 
       <br></br><br></br>
-     
-      
-     
-      <div id="container">
-  <aside>
-    <header>
-      
-    </header>
-    <ul>
-      {
-          allUsers.map(function(user , index) {
-            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
-              <span class="status orange"></span>
-              offline
-            </h3></li>
-          
-            );
 
-          } , this)
-        }
-    </ul>
-  </aside>
-  <main>
-    <header>
-      <div>
-      
+
+
+      <div id="container">
+        <aside>
+          <header>
+
+          </header>
+          <ul>
+            {
+              allUsers.map(function (user, index) {
+                return (<li key={user.id} data-index={index} onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+                  <span class="status orange"></span>
+                  offline
+                </h3></li>
+
+                );
+
+              }, this)
+            }
+          </ul>
+        </aside>
+        <main>
+          <header>
+            <div>
+
+            </div>
+          </header>
+          <ul id="chat">
+
+            {RenderMessageOnclick}
+
+
+
+
+            {RenderMessageOnsend}
+
+          </ul>
+
+          <footer>
+            <textarea placeholder="Type your message" onChange={handleChange}></textarea>
+
+            <a onClick={sendMessage} href="#">Send</a>
+          </footer>
+        </main>
       </div>
-    </header>
-    <ul id="chat">
-    
-    {RenderMessageOnclick }
- 
-   
-     
-     
-    {RenderMessageOnsend}
-    
-    </ul>
-    
-    <footer>
-      <textarea placeholder="Type your message" onChange={handleChange}></textarea>
-      
-      <a onClick={sendMessage}   href="#">Send</a>
-    </footer>
-  </main>
-</div>
 
 
     </>
