@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './chatcss.css'
 const jwt = require("jsonwebtoken");
+<<<<<<< HEAD
 var i=0 ;
+=======
+var i=0 ; 
+
+// Socket to use
+const socket = new WebSocket(`ws://localhost:3000/api/chats`);
+>>>>>>> parent of aeaae402 (chat-page-front)
 
 // This page is currently a example -> Have to be changed
 function ChatPage() {
@@ -18,6 +25,7 @@ function ChatPage() {
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
   const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (!socket) {
       // Socket to use
@@ -105,6 +113,39 @@ function ChatPage() {
         
      
     )
+=======
+  const Render = () => {
+    return (
+ <div class="conversation" >
+        {messageS.map((message) => <> 
+           <li class="me" id="me">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+
+      {messageR.map((message) => <> 
+           <li class="you"  id="you">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+        </div>
+    )
+    
+>>>>>>> parent of aeaae402 (chat-page-front)
   };
 
   useEffect(() => {
@@ -145,6 +186,7 @@ function ChatPage() {
   }, [])
 
   // Listen for messages
+<<<<<<< HEAD
   const handleChangeCurrentUser = (index, event) => {
     console.log(index);
     if( i>0 ) {
@@ -154,6 +196,22 @@ function ChatPage() {
     setCurrentUser(allUsers[index]);
     allSenderMessage.forEach((message) => {
       if(message.receiver.id === allUsers[index].id && message.sender.id === id) {
+=======
+
+
+
+  const handleChangeCurrentUser = (event) => {
+    event.preventDefault();
+    console.log(messageR.length);
+    if( i>0 ) {
+      window.location.reload(false);
+
+    }
+   
+    setCurrentUser(allUsers[event.target.getAttribute("data-index")]);
+    allSenderMessage.map((message) => {
+      if (message.receiver.id === allUsers[event.target.getAttribute("data-index")].id && message.sender.id === id) {
+>>>>>>> parent of aeaae402 (chat-page-front)
         messageS.push(message);
       }
       if(message.sender.id === allUsers[index].id && message.receiver.id === id) {
@@ -161,8 +219,16 @@ function ChatPage() {
       }
     });
 
+<<<<<<< HEAD
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length}/>));
     i++; 
+=======
+    })
+
+   
+    setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length} />));
+    i++ ; 
+>>>>>>> parent of aeaae402 (chat-page-front)
   }
 
   const handleChange = (event) => {
@@ -182,6 +248,7 @@ function ChatPage() {
     ));
   }
 
+<<<<<<< HEAD
   return (
     <>
        <ul>
@@ -191,10 +258,62 @@ function ChatPage() {
               <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}>
                 <h2>{user.lastName}</h2>
               </li>         
+=======
+
+  socket.addEventListener('message', function (event) {
+
+    
+    const msg = JSON.parse(event.data);
+
+    if (msg.sender === id) {
+      setRenderMessageOnsend(RenderMessageOnsend.concat(  <> <li class="me" >
+      <div class="entete">
+        <h2></h2>
+        <span class="status blue"></span>
+      </div>
+    
+      <div class="message">
+      <div > {msg.content}</div >
+      </div>
+    </li> </>)); 
+    i++ ;  
+  }
+    if (msg.receiver === id && currentUser.id === msg.sender) {
+      setRenderMessageOnsend(RenderMessageOnsend.concat(  <li class="you"  >
+      <div class="entete">
+        <h2></h2>
+        <span class="status blue"></span>
+      </div>
+      
+      <div class="message">
+      <div > {msg.content}</div >
+      </div>
+    </li>));
+   i++ ;   
+  }
+
+
+
+  });
+
+  return (
+    <>
+
+    
+
+    
+      <ul>
+        {
+          
+          allUsers.map(function(user , index)  {
+            return ( <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}  > <h2>{user.lastName} </h2> </li>
+         
+>>>>>>> parent of aeaae402 (chat-page-front)
             );
           })
         }
       </ul>
+<<<<<<< HEAD
       <br></br><br></br> 
       <div id="container">
         <aside>
@@ -225,6 +344,59 @@ function ChatPage() {
           </footer>
         </main>
       </div>
+=======
+      
+
+      <br></br><br></br>
+     
+      
+     
+      <div id="container">
+  <aside>
+    <header>
+      
+    </header>
+    <ul>
+      {
+          allUsers.map(function(user , index) {
+            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+              <span class="status orange"></span>
+              offline
+            </h3></li>
+          
+            );
+
+          } , this)
+        }
+    </ul>
+  </aside>
+  <main>
+    <header>
+      <div>
+      
+      </div>
+    </header>
+    <ul id="chat">
+    
+    {RenderMessageOnclick }
+ 
+   
+     
+     
+    {RenderMessageOnsend}
+    
+    </ul>
+    
+    <footer>
+      <textarea placeholder="Type your message" onChange={handleChange}></textarea>
+      
+      <a onClick={sendMessage}   href="#">Send</a>
+    </footer>
+  </main>
+</div>
+
+
+>>>>>>> parent of aeaae402 (chat-page-front)
     </>
   );
 }
