@@ -4,8 +4,11 @@ import './chatcss.css'
 const jwt = require("jsonwebtoken");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 var i=0 ;
 =======
+=======
+>>>>>>> parent of aeaae402 (chat-page-front)
 =======
 >>>>>>> parent of aeaae402 (chat-page-front)
 var i=0 ; 
@@ -28,6 +31,7 @@ function ChatPage() {
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
   const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   useEffect(() => {
@@ -183,6 +187,39 @@ function ChatPage() {
     )
     
 >>>>>>> parent of aeaae402 (chat-page-front)
+=======
+  const Render = () => {
+    return (
+ <div class="conversation" >
+        {messageS.map((message) => <> 
+           <li class="me" id="me">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+
+      {messageR.map((message) => <> 
+           <li class="you"  id="you">
+        <div class="entete">
+          <h2></h2>
+          <span class="status blue"></span>
+        </div>
+        
+        <div class="message">
+        <div > {message.content}</div >
+        </div>
+      </li></>    )}
+
+        </div>
+    )
+    
+>>>>>>> parent of aeaae402 (chat-page-front)
   };
 
   useEffect(() => {
@@ -266,6 +303,9 @@ function ChatPage() {
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length} />));
     i++ ; 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
 >>>>>>> parent of aeaae402 (chat-page-front)
 =======
 >>>>>>> parent of aeaae402 (chat-page-front)
@@ -349,6 +389,9 @@ function ChatPage() {
             return ( <li key={user.id} data-index={index} onClick={handleChangeCurrentUser}  > <h2>{user.lastName} </h2> </li>
          
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
 >>>>>>> parent of aeaae402 (chat-page-front)
 =======
 >>>>>>> parent of aeaae402 (chat-page-front)
@@ -356,6 +399,7 @@ function ChatPage() {
           })
         }
       </ul>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       <br></br><br></br> 
@@ -421,6 +465,38 @@ function ChatPage() {
       <div>
       
       </div>
+=======
+      
+
+      <br></br><br></br>
+     
+      
+     
+      <div id="container">
+  <aside>
+    <header>
+      
+    </header>
+    <ul>
+      {
+          allUsers.map(function(user , index) {
+            return ( <li key={user.id} data-index={index}  onClick={handleChangeCurrentUser}> <h2>{user.lastName} </h2>   <h3>
+              <span class="status orange"></span>
+              offline
+            </h3></li>
+          
+            );
+
+          } , this)
+        }
+    </ul>
+  </aside>
+  <main>
+    <header>
+      <div>
+      
+      </div>
+>>>>>>> parent of aeaae402 (chat-page-front)
     </header>
     <ul id="chat">
     
@@ -440,6 +516,9 @@ function ChatPage() {
     </footer>
   </main>
 </div>
+<<<<<<< HEAD
+>>>>>>> parent of aeaae402 (chat-page-front)
+=======
 >>>>>>> parent of aeaae402 (chat-page-front)
 
       <br></br><br></br>
