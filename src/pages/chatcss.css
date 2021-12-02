@@ -2,7 +2,7 @@
   box-sizing:border-box;
 }
 body{
-  background-color:#abd9e9;
+  background-color:#ffffff;
   font-family:Arial;
 }
 #container{
@@ -17,7 +17,7 @@ body{
 aside{
   width:260px;
   height:800px;
-  background-color:#3b3e49;
+  background-color: #00016c;
   display:inline-block;
   font-size:15px;
   vertical-align:top;

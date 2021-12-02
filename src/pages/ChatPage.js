@@ -13,18 +13,15 @@ function ChatPage() {
   const [allUsers, setAllUsers] = useState([]);
   const [allMessages, setAllMessage] = useState([]);
   const [allMessagesToShow, setAllMessageToShow] = useState([]);
-  const messageR = [];
-  const messageS = [];
   const [RenderMessageOnclick, setRenderMessageOnclick] = useState([]);
-  const [RenderMessageOnsend, setRenderMessageOnsend] = useState([]);
-
   useEffect(() => {
     if (!socket) {
       // Socket to use
       var newSocket = new WebSocket(`${process.env.REACT_APP_BASE_WEBSOCKET_URL}/chats?id=${decoded_token.user_id}`); 
       newSocket.onmessage = function (event) {
         const msg = JSON.parse(event.data);
-
+        if(msg.content.trim()===''){
+        }else{
         if(msg.sender === decoded_token.user_id) {
           //change setRenderMessageOnsend to append child
         var li = document. createElement("li"); 
@@ -33,15 +30,14 @@ function ChatPage() {
         div.className='message' ; 
         div.appendChild(document.createTextNode(msg.content));
         li.appendChild(div);
-        console.log(li);
         var ul = document.getElementById("chat") ; 
           ul. appendChild(li) ;
           allMessagesToShow.push(msg) ;
+          ul.scrollTo(0,ul.scrollHeight);
           i++;  
         }
-
         if(msg.receiver === decoded_token.user_id && currentUser.id === msg.sender) {
-          var li = document. createElement("li"); 
+        var li = document. createElement("li"); 
         li.className='you' ; 
         var div=document.createElement("div") ; 
         div.className='message' ; 
@@ -50,17 +46,21 @@ function ChatPage() {
         console.log(li);
         var ul = document.getElementById("chat") ; 
           ul.appendChild(li);
-          i++;   
           allMessagesToShow.push(msg) ;
+          i++ ; 
+          ul.scrollTo(0,ul.scrollHeight);
         }
-
-       
+        if(msg.receiver === decoded_token.user_id && currentUser.id===null) {
+          window.location.reload(false);
+          }
+        }
       };
       setSocket(newSocket);
     }
   }, []);
 
   const Render = () => {
+    
     return (
       <div className="conversation" >
         {
@@ -68,22 +68,15 @@ function ChatPage() {
              if (message.sender.id === decoded_token.user_id) {
                return (
                 <li className="me" key={message.id} id="me">
-                  <div className="entete">
-                    <span className="status blue"></span>
-                  </div>
-                  
                   <div className="message">
                   <div > {message.content}</div >
                   </div>
                 </li>
               )
+              
              } else if (message.receiver.id === decoded_token.user_id){
                return (
                 <li className="you" key={message.id} id="you">
-                  <div className="entete">
-                    <span className="status blue"></span>
-                  </div>
-              
                   <div className="message">
                   <div > {message.content}</div >
                   </div>
@@ -94,6 +87,7 @@ function ChatPage() {
         }
       </div>
     )
+    
   };
 
   useEffect(() => {
@@ -147,7 +141,6 @@ function ChatPage() {
       }
     });
     setAllMessageToShow(messages);
-
     setRenderMessageOnclick(RenderMessageOnclick.concat(<Render key={RenderMessageOnclick.length}/>));
     i++;
   }
@@ -160,6 +153,9 @@ function ChatPage() {
   // Example in order to use the websocket
   const sendMessage = (event) => {
     event.preventDefault();
+    if(content.trim()===''){
+    } 
+    else{
     socket.send(JSON.stringify(
       {
         content: content,
@@ -167,6 +163,7 @@ function ChatPage() {
         receiver: currentUser.id
       }
     ));
+    }
   }
 
   return (
