@@ -26,37 +26,35 @@ function ChatPage() {
         const msg = JSON.parse(event.data);
 
         if(msg.sender === decoded_token.user_id) {
-          setRenderMessageOnsend(RenderMessageOnsend.concat(
-            <li className="me" key={msg.id}>
-              <div className="entete">
-                <h2></h2>
-                <span className="status blue"></span>
-              </div>
-              <div className="message">
-                  {msg.content}
-              </div>
-            </li>
-          )); 
+          //change setRenderMessageOnsend to append child
+        var li = document. createElement("li"); 
+        li.className='me' ; 
+        var div=document.createElement("div") ; 
+        div.className='message' ; 
+        div.appendChild(document.createTextNode(msg.content));
+        li.appendChild(div);
+        console.log(li);
+        var ul = document.getElementById("chat") ; 
+          ul. appendChild(li) ;
+          allMessagesToShow.push(msg) ;
           i++;  
         }
 
         if(msg.receiver === decoded_token.user_id && currentUser.id === msg.sender) {
-            setRenderMessageOnsend(RenderMessageOnsend.concat(
-            <li className="you" key={msg.id}>
-              <div className="entete">
-                <h2></h2>
-                <span className="status blue"></span>
-              </div>
-              <div className="message">
-                {msg.content}
-              </div>
-            </li>
-          ));
+          var li = document. createElement("li"); 
+        li.className='you' ; 
+        var div=document.createElement("div") ; 
+        div.className='message' ; 
+        div.appendChild(document.createTextNode(msg.content));
+        li.appendChild(div);
+        console.log(li);
+        var ul = document.getElementById("chat") ; 
+          ul.appendChild(li);
           i++;   
+          allMessagesToShow.push(msg) ;
         }
 
-        setAllMessageToShow([...allMessagesToShow, msg]);
-        setAllMessage([...allMessages, msg]);
+       
       };
       setSocket(newSocket);
     }
@@ -194,7 +192,10 @@ function ChatPage() {
         <main>
           <ul id="chat">
             {RenderMessageOnclick}
-            {RenderMessageOnsend}
+
+            <br></br>
+
+
           </ul>
           <footer>
             <textarea placeholder="Type your message" onChange={handleChange}></textarea>
