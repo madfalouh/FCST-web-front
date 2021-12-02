@@ -27,34 +27,32 @@ function ChatPage() {
 
         if(msg.sender === decoded_token.user_id) {
           //change setRenderMessageOnsend to append child
-        var li = document. createElement("li"); 
-        li.className='me' ; 
-        var div=document.createElement("div") ; 
-        div.className='message' ; 
-        div.appendChild(document.createTextNode(msg.content));
-        li.appendChild(div);
-        console.log(li);
-        var ul = document.getElementById("chat") ; 
-          ul. appendChild(li) ;
-          allMessagesToShow.push(msg) ;
-          i++;  
+          let li = document.createElement("li");
+          li.className='me';
+          let div=document.createElement("div");
+          div.className='message';
+          div.appendChild(document.createTextNode(msg.content));
+          li.appendChild(div);
+          console.log(li);
+          let ul = document.getElementById("chat");
+          ul.appendChild(li);
+          i++;
         }
 
         if(msg.receiver === decoded_token.user_id && currentUser.id === msg.sender) {
-          var li = document. createElement("li"); 
-        li.className='you' ; 
-        var div=document.createElement("div") ; 
-        div.className='message' ; 
-        div.appendChild(document.createTextNode(msg.content));
-        li.appendChild(div);
-        console.log(li);
-        var ul = document.getElementById("chat") ; 
+          var li = document.createElement("li");
+          li.className='you';
+          var div=document.createElement("div");
+          div.className='message';
+          div.appendChild(document.createTextNode(msg.content));
+          li.appendChild(div);
+          console.log(li);
+          let ul = document.getElementById("chat");
           ul.appendChild(li);
-          i++;   
-          allMessagesToShow.push(msg) ;
+          i++;
         }
 
-       
+        allMessagesToShow.push(msg);  
       };
       setSocket(newSocket);
     }
