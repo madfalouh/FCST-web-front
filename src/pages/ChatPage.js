@@ -94,7 +94,7 @@ function ChatPage() {
     const fetchUsers = async () => {
       await axios({
         method: 'get',
-        url: `http://localhost:3000/api/messages/user/${decoded_token.user_id}`,
+        url: `${process.env.REACT_APP_BASE_API_URL}/messages/user/${decoded_token.user_id}`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
