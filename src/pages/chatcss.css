@@ -5,6 +5,10 @@ body{
   background-color:#ffffff;
   font-family:Arial;
 }
+#chat{
+display: flex;
+flex-direction: column-reverse;
+}
 #container{
   width:750px;
   height:800px;
