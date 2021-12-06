@@ -11,7 +11,7 @@ class ProductCard extends Component {
           <div className="product-card-container border-gray rounded border mx-2 my-3 d-flex flex-row align-items-center p-0 bg-light">
             <div className="h-100 position-relative border-gray border-right px-2 bg-white rounded-left">
               {
-                this.props.product.image ? <img src={'data:image/jpg;base64,' + btoa(String.fromCharCode(...new Uint8Array(this.props.product.image.data))) } className="product-image"/> : <></>
+                this.props.product.image ? <img src={this.props.product.image} className="product-image"/> : <></>
               }
             </div>
             <div className="px-3">

@@ -28,9 +28,9 @@ function Header() {
                 </div>
             </div>
 
-            <button className="btn">
+            <button className="btn" onClick={() => history.push('/Ad')}>
                 <p className="text-btn">  
-                📢  deposer une annonce
+                📢  Make your Ad 
                 </p>
             </button>
         </div>
