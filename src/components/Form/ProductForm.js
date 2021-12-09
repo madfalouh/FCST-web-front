@@ -7,7 +7,6 @@ import axios from 'axios';
 import '../Form/Form.css';
 const jwt = require("jsonwebtoken");
 
-
 const ProductForm = () => {
   const [baseImage, setBaseImage] = useState("");
   const [Types, setTypes] = useState([]);
@@ -17,7 +16,6 @@ const ProductForm = () => {
   const typeRef = useRef();
   const descriptionRef = useRef();
   const priceRef = useRef();
-
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -38,12 +36,10 @@ const ProductForm = () => {
     fetchTypes();
   }, [])
 
-
   const handlefile = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
     setBaseImage(base64);
-
   }
 
   const convertBase64 = (file) => {

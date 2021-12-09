@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import ChatPage from './pages/ChatPage';
 import RegisterPage from './pages/RegisterPage';
 import ProductPage from './pages/ProductPage';
-import AdPage from './pages/AdPage';
+import CreateProductPage from './pages/CreateProductPage';
 
 const jwt = require("jsonwebtoken");
 
@@ -49,7 +49,7 @@ function App() {
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/products" component={ProductPage} />
           <Route path='/chats' component={ChatPage} />
-          <Route path='/Ad' component={AdPage} />
+          <Route path='/create_product' component={CreateProductPage} />
 
       </Router>
     </div>

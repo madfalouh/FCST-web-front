@@ -28,9 +28,9 @@ function Header() {
                 </div>
             </div>
 
-            <button className="btn" onClick={() => history.push('/Ad')}>
+            <button className="btn" onClick={() => history.push('/create_product')}>
                 <p className="text-btn">  
-                📢  Make your Ad 
+                📢  Add a product
                 </p>
             </button>
         </div>
