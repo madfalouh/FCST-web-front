@@ -4,10 +4,8 @@ import { useHistory } from 'react-router-dom';
 import FieldItem from './FieldItem';
 import './Form.css';
 import axios from 'axios';
+import '../Form/Form.css';
 const jwt = require("jsonwebtoken");
-const multer = require('multer');
-
-
 
 
 const ProductForm = () => {
@@ -19,6 +17,7 @@ const ProductForm = () => {
   const typeRef = useRef();
   const descriptionRef = useRef();
   const priceRef = useRef();
+
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -64,6 +63,7 @@ const ProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(decoded_token.user_id);
     const data = {
       title: titleRef.current.value,
       type: typeRef.current.value,
@@ -71,7 +71,7 @@ const ProductForm = () => {
       description: descriptionRef.current.value,
       price: priceRef.current.value,
       image: baseImage,
-      seller: decoded_token.firstName + ' ' + decoded_token.lastName
+      seller: decoded_token.user_id
     };
     console.log(data);
     await axios({
@@ -93,13 +93,16 @@ const ProductForm = () => {
   return (
     <form className="form-form" onSubmit={handleSubmit} >
       <FieldItem ref={titleRef} label="title:" type="text" />
-      <select id="option" ref={typeRef}>
+      type : <br></br>
+      <br></br>
+      <select id="option" ref={typeRef} >
         {Types.map(content =>
-          <option key={content.key} value={content}>{content}</option>
+          <option key={content.key} value={content} >{content}</option>
         )};
       </select>
+      <br></br>
       <FieldItem ref={descriptionRef} label="description:" type="text" />
-      <FieldItem ref={priceRef} label="price:" type="number" />
+      <FieldItem ref={priceRef} label="price:" type="number" min="1" step=".01" />
       <input type="file" name="upload_file" id="file" onChange={handlefile} ></input>
       <img src={baseImage} height="100px" />
       <div>
