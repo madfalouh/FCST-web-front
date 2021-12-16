@@ -43,7 +43,6 @@ function ChatPage() {
             div.className = 'message';
             div.appendChild(document.createTextNode(msg.content));
             li.appendChild(div);
-            console.log(li);
             var ul = document.getElementById("chat");
             ul.appendChild(li);
             allMessagesToShow.push(msg);
@@ -109,6 +108,7 @@ function ChatPage() {
           'Authorization': 'Bearer ' + sessionStorage.getItem('__TOKEN__')
         },
       }).then((response) => {
+        console.log(response.data);
         const users = [];
         const messages = [];
         response.data.forEach((message) => {

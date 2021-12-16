@@ -5,7 +5,9 @@ import './Header.css';
 
 function Header() {
     let history = useHistory();
+ 
     return (
+        <>
         <div className="bg-bluenav">
             <img src={circleLogo} className="circleLogo"/>
             <div className="flex justify-center">
@@ -28,12 +30,18 @@ function Header() {
                 </div>
             </div>
 
-            <button className="btn" onClick={() => history.push('/create_product')}>
+           
+
+            
+        </div>
+    
+        <button className="create-button" onClick={() => history.push('/create_product')}>
                 <p className="text-btn">  
                 📢  Add a product
                 </p>
             </button>
-        </div>
+         
+        </>
     );
 }
 
